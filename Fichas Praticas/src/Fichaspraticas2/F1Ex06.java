@@ -2,7 +2,7 @@ package Fichaspraticas2;
 
 import java.util.Scanner;
 
-public class F1Ex05 {
+public class F1Ex06 {
     public static void main(String[] args) {
 
         Scanner input = new Scanner(System.in);
@@ -16,9 +16,9 @@ public class F1Ex05 {
         n2 = input.nextInt();
 
         if (n1 > n2) {
-            System.out.print("Os dois valores numericos indicados por ordem crescente sao " + n2 + " e " + n1);
+            System.out.print("Os dois valores numericos indicados por ordem decrescente sao " + n1 + " e " + n2);
         } else {
-            System.out.print("Os dois valores numericos indicados por ordem crescente sao " + n1 + " e " + n2);
+            System.out.print("Os dois valores numericos indicados por ordem decrescente sao " + n2 + " e " + n1);
         }
 
     }
