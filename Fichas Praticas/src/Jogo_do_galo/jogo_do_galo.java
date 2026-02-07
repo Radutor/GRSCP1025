@@ -3,47 +3,53 @@ package Jogo_do_galo;
 import java.util.Scanner;
 
 public class jogo_do_galo {
-    static void main(String[] args) {
-
+    public static void main(String[] arg) {
         Scanner input = new Scanner(System.in);
 
-        //Declarar  a variavél para o jogo do galo
-        int[][] matriz = new int[3][3];
+        //Matriz
+        char[][] matriz = {
+                {' ', ' ', ' '},
+                {' ', ' ', ' '},
+                {' ', ' ', ' '}
+        };
 
-        System.out.println("Jogador 1 joga com: X");
-        System.out.println("Jogador 2 joga   com: O");
-        System.out.println("  |  |  ");
-        System.out.println("--------");
-        System.out.println("  |  |  ");
-        System.out.println("--------");
-        System.out.println("  |  |  ");
+        char jogadorAtual = 'X';
+        int totalJogadas = 0;
+        boolean fimDeJogo = false;
 
-        int opcao1, opcao2, opcao3, opcao4, opcao5, opcao6;
-        System.out.println("Jogador 1 começa!");
-        System.out.println("Qual a coluna deseja jogar? Escolha entre 0, 1 ou 2: ");
-        opcao1 = input.nextInt();
-        System.out.println("Qual a linha deseja jogar' Escolha entre 0, 1, 2: ");
-        opcao2 = input.nextInt();
-        matriz[opcao1][opcao2] = "X";
+        System.out.println("---Jogo Do Galo---");
 
+        while (!fimDeJogo) {
+            //Chamar a biblioteca para criação do tabuleiro
+            LogicaJogo.criarTabuleiro(matriz);
+            System.out.println("\nJogador " + jogadorAtual + ", é a tua vez!");
 
-        System.out.println("Jogador 2 pode jogar!");
-        System.out.println("Qual a coluna que deseja jogar? Escolha entre 0, 1 ou 2: ");
-        opcao3 = input.nextInt();
-        System.out.println("Qual a linha deseja jogar' Escolha entre 0, 1, 2: ");
-        opcao4 = input.nextInt();
-        while (opcao1 == opcao3 && opcao2 == opcao4) {
-            System.out.println("Essa posição já foi utilizada, escolha outra posição!");
-            System.out.println("Qual a coluna que deseja jogar? Escolha entre 0, 1 ou 2: ");
-            opcao3 = input.nextInt();
-            System.out.println("Qual a linha deseja jogar' Escolha entre 0, 1, 2: ");
-            opcao4 = input.nextInt();
-        } matriz[opcao3][opcao4] = "O";
+            System.out.print("Linha (0, 1, 2): ");
+            int linha = input.nextInt();
+            System.out.print("Coluna (0, 1, 2): ");
+            int coluna = input.nextInt();
 
-        System.out.println("Jogador 1 joga agora!");
-        System.out.println("Qual a coluna deseja jogar? Escolha entre 0, 1 ou 2: ");
-        opcao5 = input.nextInt();
-        System.out.println("Qual a linha deseja jogar' Escolha entre 0, 1, 2: ");
-        opcao6 = input.nextInt();
+            //Verificar se a casa que se jogou já foi usada
+            if (linha >= 0 && linha < 3 && coluna >= 0 && coluna < 3 && matriz[linha][coluna] == ' ') {
+                matriz[linha][coluna] = jogadorAtual;
+                totalJogadas++;
+
+                //Chamar a biblioteca para verificar a vitoria ou empate
+                if (LogicaJogo.condicaovitoria(matriz, jogadorAtual)) {
+                    LogicaJogo.criarTabuleiro(matriz);
+                    System.out.println("Vitoria! O Jogador " + jogadorAtual + " ganhou!");
+                    fimDeJogo = true;
+                } else if (LogicaJogo.condicaoempate(totalJogadas)) {
+                    LogicaJogo.criarTabuleiro(matriz);
+                    System.out.println("Empate! O tabuleiro está completo.");
+                    fimDeJogo = true;
+                } else {
+                    //mudar para jogador seguinte
+                    jogadorAtual = (jogadorAtual == 'X') ? 'O' : 'X';
+                }
+            } else {
+                System.out.println("\n[ERRO] jogada inválida! Tenta outra vez.\n");
+            }
+        }
     }
 }
